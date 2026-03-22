@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance Quotation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #38761d, #6aa84f);
+            padding: 40px 20px;
+        }
+
+        .form-container {
+            background: white;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #38761d;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #38761d;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #2f5f18;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #38761d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+
+        <h2>Car Insurance Details</h2>
+
+        <div class="form-group">
+            <label>Unit Details</label>
+            <input type="text" id="unit">
+        </div>
+
+        <div class="form-group">
+            <label>Year Model</label>
+            <input type="text" id="year">
+        </div>
+
+        <div class="form-group">
+            <label>Variant</label>
+            <input type="text" id="variant">
+        </div>
+
+        <div class="form-group">
+            <label>Transmission</label>
+            <select id="transmission">
+                <option>Automatic</option>
+                <option>Manual</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Under Financing?</label>
+            <select id="financing" onchange="toggleFinancing(this.value)">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
+
+        <div id="financingBox" class="form-group hidden">
+            <label>Financing Details</label>
+            <input type="text" id="financingDetails" placeholder="Bank / Company Name">
+        </div>
+
+        <div class="form-group">
+            <label>Expiry Date of Last Policy</label>
+            <input type="date" id="expiry">
+        </div>
+
+        <div class="form-group">
+            <label>Contact Number</label>
+            <input type="text" id="contact">
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email">
+        </div>
+
+        <div class="form-group checkbox-group">
+            <input type="checkbox" id="privacyConsent">
+            <label for="privacyConsent">
+                I agree to the Privacy Notice and consent to the processing of my personal data for quotation purposes.
+            </label>
+        </div>
+
+        <button class="btn" onclick="submitForm()">Submit</button>
+    </div>
+
+    <script>
+        function toggleFinancing(value) {
+            var box = document.getElementById("financingBox");
+            if (value === "yes") {
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+            }
+        }
+
+        async function submitForm() {
+            const privacyConsent = document.getElementById("privacyConsent").checked;
+
+            if (!privacyConsent) {
+                alert("Please agree to the Privacy Notice and consent before submitting.");
+                return;
+            }
+
+            const data = {
+                unit: document.getElementById("unit").value,
+                year: document.getElementById("year").value,
+                variant: document.getElementById("variant").value,
+                transmission: document.getElementById("transmission").value,
+                financing: document.getElementById("financing").value,
+                financingDetails: document.getElementById("financingDetails").value,
+                expiry: document.getElementById("expiry").value,
+                contact: document.getElementById("contact").value,
+                email: document.getElementById("email").value,
+                privacyConsent: privacyConsent ? "Yes" : "No"
+            };
+
+            await fetch("https://script.google.com/macros/s/AKfycbyL59WNXIUEfoh1rch6NAhsIsh26er4SVUrN8zQBNdvLy1KqMchyIBjmOZ5VVx4vyK4/exec", {
+                method: "POST",
+                body: JSON.stringify(data)
+            });
+
+            alert("Submitted successfully!");
+        }
+    </script>
+
+</body>
+</html>
